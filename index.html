@@ -1,225 +1,783 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Institute Admissions Portal</title>
+    <title>Institute of Law | Professional Entrance Examination</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #0a1a3d;
+            --primary-light: #1a2d5f;
+            --primary-dark: #050d20;
+            --secondary: #d4af37;
+            --accent: #c9a961;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f0f2f5;
+            --text-primary: #0a1a3d;
+            --text-secondary: #3d4d63;
+            --text-muted: #7a8694;
+            --border: #d9e1e8;
+            --success-bg: #ecfdf5;
+            --danger-bg: #fef2f2;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('bg-legal.webp') center/cover no-repeat fixed;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
+            background: linear-gradient(135deg, rgba(10, 26, 61, 0.95) 0%, rgba(30, 45, 90, 0.95) 100%);
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .system-shell {
+            position: relative;
+            z-index: 2;
+        }
+
+        .system-shell {
+            width: min(900px, calc(100% - 20px));
+            margin: 0 auto;
+            padding: 20px 0 40px;
+        }
+
+        .system-banner {
+            background: linear-gradient(90deg, rgba(10, 26, 61, 0.95) 0%, rgba(30, 45, 90, 0.95) 100%);
+            color: #d4af37;
+            font-size: 0.8rem;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-bottom: 3px solid #d4af37;
+            border-top: 2px solid #d4af37;
+            font-weight: 700;
+        }
+
+        .status-badge-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         header {
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-bottom: 3px solid var(--secondary);
+            padding: 45px 30px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(10, 26, 61, 0.15);
+            position: relative;
+            overflow: hidden;
         }
 
-        h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #d4af37 0%, #c9a961 50%, #d4af37 100%);
+        }
+
+        .seal-wrapper {
+            display: inline-block;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.3s ease;
+            font-size: 80px;
+        }
+
+        .seal-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .header-titles h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 0.02em;
             margin-bottom: 10px;
         }
 
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.1em;
-            margin-bottom: 20px;
+        .header-titles p {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
         }
 
-        .description {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .wrapper {
+            max-width: 800px;
+            margin: 30px auto 0;
+            padding: 0 16px;
         }
 
-        .features {
-            background: #ecf0f1;
-            padding: 20px;
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .card-header { margin-bottom: 20px; }
+
+        .card-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
             border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: left;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all 0.2s ease;
         }
 
-        .features h2 {
-            color: #2c3e50;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            text-align: center;
+        .input-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: var(--bg-primary);
         }
 
-        .features ul {
-            list-style: none;
-            padding-left: 0;
+        .input-control::placeholder {
+            color: var(--text-muted);
         }
 
-        .features li {
-            padding: 8px 0;
-            color: #34495e;
-            border-bottom: 1px solid #bdc3c7;
-        }
-
-        .features li:last-child {
-            border-bottom: none;
-        }
-
-        .features li:before {
-            content: "✓ ";
-            color: #27ae60;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
+        select.input-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23475569' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 32px;
         }
 
         .btn {
-            padding: 12px 30px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
             display: inline-block;
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+        .btn:active { transform: translateY(0); }
+
+        .btn-navy { 
+            background: linear-gradient(135deg, var(--primary), #1a3a6f);
+            color: #ffffff;
+        }
+
+        .btn-navy:hover {
+            background: linear-gradient(135deg, #050d20, #0a1a3d);
+        }
+
+        .btn-gold { 
+            background: linear-gradient(135deg, #d4af37, #c9a961);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #c9a961, #b89227);
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            font-size: 0.8rem;
+            padding: 10px 18px;
+            width: auto;
             font-weight: 600;
         }
 
-        .btn-primary {
-            background: #3498db;
-            color: white;
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.25);
+            color: #ffffff;
         }
 
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        .btn-link {
+            background: none;
+            color: var(--danger);
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0;
+            font-weight: 600;
+            transition: color 0.2s ease;
         }
 
-        .btn-secondary {
-            background: #95a5a6;
-            color: white;
+        .btn-link:hover {
+            color: #dc2626;
         }
 
-        .btn-secondary:hover {
-            background: #7f8c8d;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+        #loginPanel, #adminPanel { display: none; }
+
+        .result-card {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            animation: slideIn 0.3s ease;
         }
 
-        .info-box {
-            background: #e8f4f8;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+            gap: 12px;
+        }
+
+        .applicant-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .applicant-id {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-passed { 
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: var(--success);
+            border: 1px solid #6ee7b7;
+        }
+
+        .tag-failed { 
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: var(--danger);
+            border: 1px solid #fca5a5;
+        }
+
+        .feedback-box {
+            background: rgba(255,255,255,0.6);
+            border-left: 4px solid var(--primary);
+            padding: 14px 16px;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            border-radius: 6px;
+        }
+
+        .table-responsive { overflow-x: auto; margin-top: 16px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
             text-align: left;
         }
 
-        .info-box h3 {
-            color: #2c3e50;
-            margin-bottom: 8px;
+        th {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 12px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
         }
 
-        .info-box p {
-            color: #555;
-            font-size: 0.95em;
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
         }
 
         footer {
-            border-top: 1px solid #ecf0f1;
-            padding-top: 20px;
-            color: #95a5a6;
-            font-size: 0.9em;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.03em;
         }
 
-        footer p {
-            margin: 5px 0;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 25px;
+        @media (max-width: 640px) {
+            .system-banner {
+                font-size: 0.7rem;
+                letter-spacing: 0.03em;
+                padding: 10px 14px;
             }
 
-            h1 {
-                font-size: 1.8em;
+            header {
+                padding: 24px 16px;
             }
 
-            .button-group {
+            .seal-wrapper {
+                font-size: 50px;
+            }
+
+            .header-titles h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 16px;
+                margin-bottom: 18px;
+            }
+
+            .result-head {
                 flex-direction: column;
             }
 
-            .btn {
+            .btn-outline {
                 width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
+    <div class="system-shell">
+        <div class="system-banner">
+            <div><span class="status-badge-dot"></span>Official Law School Portal</div>
+            <div>Admission Year 2026-2027</div>
+        </div>
+
         <header>
-            <h1>🎓 Institute Admissions</h1>
-            <p class="subtitle">Professional Entrance Examination Portal</p>
+            <div class="seal-wrapper" id="secretTrigger" aria-label="Toggle admin access" title="Admin Access">
+                ⚖️
+            </div>
+
+            <div class="header-titles">
+                <h1>Institute of Law</h1>
+                <p>Professional Entrance Examination &amp; Admissions</p>
+            </div>
         </header>
 
-        <p class="description">
-            Welcome to our comprehensive admissions portal. Apply for entrance examination, track your application status, and prepare for your future with us.
-        </p>
+        <div class="wrapper">
+            <div style="text-align: right; margin-bottom: 16px;">
+                <button class="btn btn-outline" id="toggleLoginBtn">🔐 Admin Portal</button>
+            </div>
 
-        <div class="features">
-            <h2>Portal Features</h2>
-            <ul>
-                <li>Online Application Submission</li>
-                <li>Real-time Application Status Tracking</li>
-                <li>Exam Schedule Management</li>
-                <li>Document Upload & Verification</li>
-                <li>Result Notification System</li>
-                <li>24/7 Applicant Support</li>
-            </ul>
+            <div class="card" id="loginPanel">
+                <div class="card-header">
+                    <h2>Administrator Access</h2>
+                    <p>Restricted area for authorized admission office personnel only.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Security Credentials</label>
+                    <input type="password" id="adminPassword" class="input-control" placeholder="Enter admin password">
+                </div>
+
+                <button class="btn btn-navy" id="btnLogin">Access Admin Panel</button>
+            </div>
+
+            <div class="card" id="adminPanel">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+                    <div>
+                        <h2>Admissions Management</h2>
+                        <p>Manage candidate scores and admission status.</p>
+                    </div>
+                    <button class="btn-link" id="btnLockAdmin">Exit Admin</button>
+                </div>
+
+                <div style="background: var(--bg-tertiary); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label>Registration Number</label>
+                        <input type="text" id="addId" class="input-control" placeholder="e.g. LAW-2026-0451">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Candidate Name</label>
+                        <input type="text" id="addName" class="input-control" placeholder="Full legal name">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label>Bar Exam Score (%)</label>
+                            <input type="text" id="addScore" class="input-control" placeholder="e.g. 85.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Admission Status</label>
+                            <select id="addStatus" class="input-control">
+                                <option value="PASSED">QUALIFIED</option>
+                                <option value="FAILED">NOT QUALIFIED</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dean's Remarks</label>
+                        <input type="text" id="addFeedback" class="input-control" placeholder="Official comments or recommendations">
+                    </div>
+
+                    <button class="btn btn-gold" id="btnAddRecord">Submit Record</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Registration #</th>
+                                <th>Candidate Name</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>About Our Institution</h2>
+                    <p>A Brief History</p>
+                </div>
+
+                <div style="line-height: 1.8; color: var(--text-secondary);">
+                    <p style="margin-bottom: 14px;">
+                        The Institute of Law has been training legal professionals for generations. What started as a small group of legal scholars meeting to discuss jurisprudence has grown into one of the country's most respected law schools. Our graduates work as judges, prosecutors, defense attorneys, and legal advisors across the nation.
+                    </p>
+
+                    <p style="margin-bottom: 14px;">
+                        Over the years, we've stayed committed to the basics: solid legal training, an understanding of constitutional principles, and the kind of practical experience that matters when you're in a courtroom. Our faculty are practicing lawyers and legal professionals who bring real cases and real problems into the classroom. That's how we teach—not from textbooks alone, but from actual experience.
+                    </p>
+
+                    <p style="margin-bottom: 14px;">
+                        The entrance examination isn't just a filter. It's a reflection of what we believe law school should be. We're looking for students who are serious about the profession, who understand that being a lawyer is a responsibility, and who will contribute something meaningful to the legal system. That's why we maintain high standards. Our bar passage rates speak for themselves.
+                    </p>
+
+                    <p style="margin-bottom: 16px;">
+                        This August 2026, we're welcoming a new class of future lawyers. If you've made it this far in the admission process, you're already part of something bigger. Whether you pass on your first try or come back later, you're joining a community that values integrity, hard work, and service to the law.
+                    </p>
+
+                    <div style="margin-top: 16px; padding: 14px; background: rgba(212, 175, 55, 0.08); border-left: 4px solid var(--secondary); border-radius: 4px;">
+                        <p style="font-size: 0.9rem; color: var(--primary); margin: 0;">
+                            <strong>Admission Cycle 2026-2027</strong> • Entrance examinations held through August 2026
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>📋 Check Admission Status</h2>
+                    <p>Quick access to your examination results and admission decision</p>
+                </div>
+
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label>🔍 Search by Name or Registration #</label>
+                        <div style="position: relative;">
+                            <input type="text" id="searchInput" class="input-control" placeholder="e.g. John Smith or LAW-2026-0451" required style="padding-left: 40px;">
+                            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--text-muted); pointer-events: none;">🔎</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-navy" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>View Results</span>
+                        <span style="font-size: 1.1rem;">→</span>
+                    </button>
+                </form>
+
+                <div style="margin-top: 20px; padding: 14px; background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; text-align: center;">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">
+                        ✓ Your results are available immediately upon announcement<br>
+                        <strong style="color: var(--primary);">Results verified on: August 19, 2026</strong>
+                    </p>
+                </div>
+
+                <div id="resultBox" class="result-card">
+                    <div class="result-head">
+                        <div>
+                            <div class="applicant-name" id="resName">-</div>
+                            <div class="applicant-id" id="resId">Registration #: -</div>
+                        </div>
+                        <div id="resBadge" class="tag tag-passed">QUALIFIED</div>
+                    </div>
+
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        📊 Examination Score: <strong id="resScore" style="color: var(--primary); font-size: 1rem;">-</strong>
+                    </div>
+
+                    <div class="feedback-box">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); font-weight: 700;">💬 Dean's Recommendation:</div>
+                        <p id="resFeedback" style="font-style: italic; margin-top: 6px;">-</p>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="info-box">
-            <h3>📝 Application Deadline</h3>
-            <p>Submit your application before the closing date. Late submissions will not be accepted. Check our FAQs for more information.</p>
-        </div>
-
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="alert('Application portal coming soon!')">Start Application</button>
-            <button class="btn btn-secondary" onclick="alert('Check back for updates!')">Track Application</button>
-        </div>
-
-        <footer>
-            <p>&copy; 2026 Institute Admissions. All rights reserved.</p>
-            <p>For assistance, contact: admissions@institute.edu</p>
-            <p><a href="https://github.com/eduardopigao-tech/institute-admissions" style="color: #3498db; text-decoration: none;">View on GitHub</a></p>
-        </footer>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Institute of Law. Excellence • Integrity • Justice</p>
+    </footer>
+
+    <script>
+        const ADMIN_PASS = "AdminAccess2026";
+
+        let defaultData = [
+            { id: "LAW-2026-0451", name: "John Smith", score: "87.5%", status: "PASSED", feedback: "Excellent performance. Admitted to Juris Doctor Program." },
+            { id: "LAW-2026-0452", name: "Sarah Johnson", score: "92.0%", status: "PASSED", feedback: "Outstanding scores. Recommended for Law Review." },
+            { id: "LAW-2026-0453", name: "Michael Chen", score: "68.5%", status: "FAILED", feedback: "Score below passing threshold. Retake available next term." }
+        ];
+
+        let db = JSON.parse(localStorage.getItem('pnp_law_db')) || defaultData;
+
+        if (!Array.isArray(db) || db.length === 0) {
+            db = defaultData;
+        }
+
+        function saveDb() {
+            localStorage.setItem('pnp_law_db', JSON.stringify(db));
+        }
+
+        const toggleLoginBtn = document.getElementById('toggleLoginBtn');
+        const secretTrigger = document.getElementById('secretTrigger');
+        const loginPanel = document.getElementById('loginPanel');
+        const adminPanel = document.getElementById('adminPanel');
+
+        function toggleLogin() {
+            if (adminPanel.style.display === 'block') {
+                adminPanel.style.display = 'none';
+                loginPanel.style.display = 'none';
+                return;
+            }
+
+            loginPanel.style.display = (loginPanel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        toggleLoginBtn.addEventListener('click', toggleLogin);
+        secretTrigger.addEventListener('click', toggleLogin);
+
+        document.getElementById('btnLogin').addEventListener('click', function() {
+            const passInput = document.getElementById('adminPassword').value.trim();
+
+            if (passInput === ADMIN_PASS) {
+                loginPanel.style.display = 'none';
+                adminPanel.style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                renderTable();
+            } else {
+                alert('Access Denied: Invalid Security Key.');
+            }
+        });
+
+        document.getElementById('btnLockAdmin').addEventListener('click', function() {
+            adminPanel.style.display = 'none';
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultBox = document.getElementById('resultBox');
+
+            if (!query) return;
+
+            const match = db.find(r =>
+                r.name.toLowerCase().includes(query) ||
+                r.id.toLowerCase().includes(query)
+            );
+
+            resultBox.style.display = 'block';
+
+            if (match) {
+                document.getElementById('resName').innerText = match.name;
+                document.getElementById('resId').innerText = 'Control No: ' + match.id;
+                document.getElementById('resScore').innerText = match.score;
+
+                const badge = document.getElementById('resBadge');
+                badge.innerText = match.status;
+                badge.className = 'tag ' + (match.status === 'PASSED' ? 'tag-passed' : 'tag-failed');
+
+                document.getElementById('resFeedback').innerText = match.feedback || (match.status === 'PASSED' ? 'Qualified for Admissions.' : 'Did not meet requirements.');
+            } else {
+                document.getElementById('resName').innerText = 'Record Not Located';
+                document.getElementById('resId').innerText = 'Query: ' + query;
+                document.getElementById('resScore').innerText = 'N/A';
+
+                const badge = document.getElementById('resBadge');
+                badge.innerText = 'NO MATCH';
+                badge.className = 'tag tag-failed';
+
+                document.getElementById('resFeedback').innerText = 'No matching admission record found.';
+            }
+        });
+
+        function renderTable() {
+            const tbody = document.getElementById('recordsTableBody');
+            tbody.innerHTML = '';
+
+            db.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${item.id}</strong></td>
+                    <td>${item.name}</td>
+                    <td>${item.score}</td>
+                    <td style="font-weight:700; color:${item.status === 'PASSED' ? '#059669' : '#dc2626'}">${item.status}</td>
+                    <td><button onclick="deleteRecord(${index})" class="btn-link">Remove</button></td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('btnAddRecord').addEventListener('click', function() {
+            const id = document.getElementById('addId').value.trim();
+            const name = document.getElementById('addName').value.trim();
+            const score = document.getElementById('addScore').value.trim();
+            const status = document.getElementById('addStatus').value;
+            const feedback = document.getElementById('addFeedback').value.trim();
+
+            if (!id || !name || !score) {
+                alert('Please fill in ID, Name, and Rating.');
+                return;
+            }
+
+            db.unshift({ id, name, score, status, feedback });
+            saveDb();
+            renderTable();
+
+            document.getElementById('addId').value = '';
+            document.getElementById('addName').value = '';
+            document.getElementById('addScore').value = '';
+            document.getElementById('addFeedback').value = '';
+        });
+
+        window.deleteRecord = function(index) {
+            if (confirm('Remove record permanently?')) {
+                db.splice(index, 1);
+                saveDb();
+                renderTable();
+            }
+        };
+    </script>
 </body>
+
 </html>
